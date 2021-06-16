@@ -1,4 +1,5 @@
 import styles from "./styles/Coins.module.css";
+import Link from "next/link";
 
 const Coins = ({
   name,
@@ -8,34 +9,41 @@ const Coins = ({
   volume,
   image,
   priceChange,
+  id,
 }) => {
   return (
-    <div className={styles.coin__container}>
-      <div className={styles.coin__row}>
-        <div className={styles.coin}>
-          <img src={image} alt={name} className={styles.coin__img} />
-          <h1 className={styles.coin__title}>{name}</h1>
-          <p className={styles.coin__symbol}>{symbol}</p>
+    <Link href="/coin/[id]" as={`/coin/${id}`}>
+      <a>
+        <div className={styles.coin__container}>
+          <div className={styles.coin__row}>
+            <div className={styles.coin}>
+              <img src={image} alt={name} className={styles.coin__img} />
+              <h1 className={styles.coin__title}>{name}</h1>
+              <p className={styles.coin__symbol}>{symbol}</p>
+            </div>
+
+            <div className={styles.coin__data}>
+              <p className={styles.coin__price}>${+price.toFixed(1)}</p>
+              <p className={styles.coin__volume}>${volume.toLocaleString()}</p>
+
+              {priceChange < 0 ? (
+                <p className={`${styles.coin__change} ${styles.red}`}>
+                  {priceChange.toFixed(2)}%
+                </p>
+              ) : (
+                <p className={`${styles.coin__change} ${styles.green}`}>
+                  {priceChange.toFixed(2)}%
+                </p>
+              )}
+
+              <p className="market__cap">
+                Mkt cap: ${marketcap.toLocaleString()}
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div className={styles.coin__data}>
-          <p className={styles.coin__price}>${+price.toFixed(1)}</p>
-          <p className={styles.coin__volume}>${volume.toLocaleString()}</p>
-
-          {priceChange < 0 ? (
-            <p className={`${styles.coin__change} ${styles.red}`}>
-              {priceChange.toFixed(2)}%
-            </p>
-          ) : (
-            <p className={`${styles.coin__change} ${styles.green}`}>
-              {priceChange.toFixed(2)}%
-            </p>
-          )}
-
-          <p className="market__cap">Mkt cap: ${marketcap.toLocaleString()}</p>
-        </div>
-      </div>
-    </div>
+      </a>
+    </Link>
   );
 };
 
